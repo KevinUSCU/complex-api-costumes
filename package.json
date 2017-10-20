@@ -1,0 +1,19 @@
+{
+  "name": "complex-api-costumes",
+  "version": "0.0.1",
+  "description": "Galvanize project to practice building complex routes around a simple costume database.",
+  "main": "app.js",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinUSCU/complex-api-costumes.git"
+  },
+  "author": "Kevin Springer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinUSCU/complex-api-costumes/issues"
+  },
+  "homepage": "https://github.com/KevinUSCU/complex-api-costumes#readme"
+}
