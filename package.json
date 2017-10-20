@@ -4,7 +4,9 @@
   "description": "Galvanize project to practice building complex routes around a simple costume database.",
   "main": "app.js",
   "scripts": {
-    "test": "none"
+    "test": "none",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,15 @@
   "bugs": {
     "url": "https://github.com/KevinUSCU/complex-api-costumes/issues"
   },
-  "homepage": "https://github.com/KevinUSCU/complex-api-costumes#readme"
+  "homepage": "https://github.com/KevinUSCU/complex-api-costumes#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "faker": "^4.1.0",
+    "morgan": "^1.9.0",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
