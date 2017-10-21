@@ -99,22 +99,24 @@ function getCostume(id) {
   return response
 }
 
-// function create(body) {
-//   const { name, type, color, numBridges } = body
+function createCostume(body) {
+  const { name, price, description, tags } = body
 
-//   let response
-//   if (!name || !type || !color || !numBridges) {
-//     let status = 400
-//     let message = `You can't have a troll without a name, type, color, and the number of bridges they watch over!`
-//     response = { errors: { status, message } }
-//   } else {
-//     const troll = { id: uuid(), name, type, color, numBridges }
-//     troll.push(troll)
-//     response = troll
-//   }
+  let response
+  if (!name || !price) {
+    let status = 400
+    let message = `You can't have a costume without a name and a price.`
+    response = { errors: { status, message } }
+  } else {
+    const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+    const costume = { id: uuid(), name, price, description, tags }
+    costumes.push(costume)
+    response = costume
+    fs.writeFileSync(costumesDb, JSON.stringify(costumes))
+  }
 
-//   return response
-// }
+  return response
+}
 
 // function update(id, body) {
 //   const troll = trolls.find(troll => troll.id === id)
