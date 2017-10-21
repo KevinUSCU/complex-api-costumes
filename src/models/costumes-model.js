@@ -182,25 +182,46 @@ function deleteCostume(costumeId) {
 }
 
 // FUNCTIONS FOR TAGS
-function getCostumeTags() {
+function getCostumeTags(costumeId) {
+  // Find costume
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
-  const tags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
-  return
+  let costume = costumes.find(element => element.id === costumeId)
+
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
+    response = { errors: { status, message } }
+  } else {
+    if (!costume.tags) {
+      let status = 404
+      let message = `This awesome costume doesn't have any tags!`
+      response = { errors: { status, message } }
+    } else {
+      // If costume has tags, fill in full tag info from tags database
+      const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+      for (let i = 0; i < costume.tags.length; i++) {
+        costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+      }
+      response = costume.tags
+    }
+  }
+  return response
 }
 
-function getCostumeTag() {
+function getCostumeTag(costumeId, tagId) {
 
 }
 
-function createCostumeTag() {
+function createCostumeTag(costumeId, body) {
 
 }
 
-function updateCostumeTag() {
+function updateCostumeTag(costumeId, tagId, body) {
 
 }
 
-function deleteCostumeTag() {
+function deleteCostumeTag(costumeId, tagId) {
 
 }
 
