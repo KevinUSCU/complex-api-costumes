@@ -92,14 +92,14 @@ function getAllCostumes() {
   return costumes
 }
 
-function getCostume(id) {
+function getCostume(costumeId) {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
-  let costume = costumes.find(costume => costume.id === id)
+  let costume = costumes.find(element => element.id === costumeId)
   
   let response
   if (!costume) {
     let status = 404
-    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
     response = { errors: { status, message } }
   } else {
     // Replace tag ids with full tag info (if present)
@@ -134,14 +134,14 @@ function createCostume(body) {
   return response
 }
 
-function updateCostume(id, body) {
+function updateCostume(costumeId, body) {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
-  const costume = costumes.find(costume => costume.id === id)
+  const costume = costumes.find(element => element.id === costumeId)
 
   let response
   if (!costume) {
     let status = 404
-    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
     response = { errors: { status, message } }
   } else {
     const { name, price, description, tags } = body
@@ -163,14 +163,14 @@ function updateCostume(id, body) {
   return response
 }
 
-function deleteCostume(id) {
+function deleteCostume(costumeId) {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))  
-  const costume = costumes.find(costume => costume.id === id)
+  const costume = costumes.find(element => element.id === costumeId)
   
   let response
   if (!costume) {
     let status = 404
-    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
     response = { errors: { status, message } }
   } else {
     const index = costumes.indexOf(costume)
