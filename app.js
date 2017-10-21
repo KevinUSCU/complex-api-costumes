@@ -17,7 +17,7 @@ app.use((err, req, res, next) => {
 })
 
 app.use((req, res, next) => {
-  res.status(404).json({ error: { message: 'That resource was not found. (But I bet it would have been aweesome!' }})
+  res.status(404).json({ error: { message: 'That resource was not found. (But I bet it would have been aweesome!)' }})
 })
 
 const listener = () => console.log(`Listening on port ${port}`)
