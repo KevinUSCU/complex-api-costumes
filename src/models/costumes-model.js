@@ -81,10 +81,12 @@ function randomCostumes(num) {
 function getAllCostumes() {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
   const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
-  // Replace tag ids with full tag info
+  // Replace tag ids with full tag info (if present)
   costumes.forEach(costume => {
-    for (let i = 0; i < costume.tags.length; i++) {
-      costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+    if (costume.tags) {
+      for (let i = 0; i < costume.tags.length; i++) {
+        costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+      }
     }
   })
   return costumes
@@ -100,10 +102,12 @@ function getCostume(id) {
     let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
     response = { errors: { status, message } }
   } else {
-    // Replace tag ids with full tag info
-    const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
-    for (let i = 0; i < costume.tags.length; i++) {
-      costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+    // Replace tag ids with full tag info (if present)
+    if (costume.tags) {
+      const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+      for (let i = 0; i < costume.tags.length; i++) {
+        costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+      }
     }
     response = costume
   }
