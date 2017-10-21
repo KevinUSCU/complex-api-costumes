@@ -100,6 +100,11 @@ function getCostume(id) {
     let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
     response = { errors: { status, message } }
   } else {
+    // Replace tag ids with full tag info
+    const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+    for (let i = 0; i < costume.tags.length; i++) {
+      costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+    }
     response = costume
   }
 
