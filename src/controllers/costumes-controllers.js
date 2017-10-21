@@ -43,7 +43,7 @@ function updateCostume(req, res, next) {
 function deleteCostume(req, res, next) {
   const costumeId = req.params.costumeId
   const result = model.deleteCostume(costumeId)
-  console.log(result)
+
   if (result.errors) {
     return next(result.errors)
   }
@@ -110,7 +110,7 @@ function deleteCostumeTag(req, res, next) {
   const costumeId = req.params.costumeId
   const tagId = req.params.tagId
   const result = model.deleteCostumeTag(costumeId, tagId)
-  console.log(result)
+
   if (result.errors) {
     return next(result.errors)
   }
