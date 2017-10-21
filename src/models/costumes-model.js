@@ -118,31 +118,32 @@ function createCostume(body) {
   return response
 }
 
-// function update(id, body) {
-//   const troll = trolls.find(troll => troll.id === id)
-// console.log(troll)
-//   let response
-//   if (!troll) {
-//     let status = 404
-//     let message = `Sneaky trolls... could not find a troll with id of ${id}.`
-//     response = { errors: { status, message } }
-//   } else {
-//     const { name, type, color, numBridges } = body
-//     if (!name && !type && !color && !numBridges) {
-//       let status = 400
-//       let message = `Some troll detail(s) to change must be provided - none were!`
-//       response = { errors: { status, message } }
-//     } else {
-//       if (name) troll.name = name
-//       if (type) troll.type = type
-//       if (color) troll.color = color
-//       if (numBridges) troll.numBridges = numBridges
-//       response = troll
-//     }
-//   }
+function updateCostume(id, body) {
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  const costume = costumes.find(costume => costume.id === id)
 
-//   return response
-// }
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    response = { errors: { status, message } }
+  } else {
+    const { name, price, description, tags } = body
+    if (!name && !price && !description && !tags) {
+      let status = 400
+      let message = `Some costume detail(s) to change must be provided - none were!`
+      response = { errors: { status, message } }
+    } else {
+      if (name) costume.name = name
+      if (price) costume.price = price
+      if (description) costume.description = description
+      if (tags) costume.tags = tags
+      response = costume
+    }
+  }
+
+  return response
+}
 
 // function del(id) {
 //   const troll = trolls.find(troll => troll.id === id)
@@ -150,7 +151,7 @@ function createCostume(body) {
 //   let response
 //   if (!troll) {
 //     let status = 404
-//     let message = `Sneaky trolls... could not find a troll with id of ${id}.`
+//     let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
 //     response = { errors: { status, message } }
 //   } else {
 //     const index = trolls.indexOf(troll)
