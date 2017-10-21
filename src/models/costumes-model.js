@@ -147,21 +147,23 @@ function updateCostume(id, body) {
   return response
 }
 
-// function del(id) {
-//   const troll = trolls.find(troll => troll.id === id)
+function deleteCostume(id) {
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))  
+  const costume = costumes.find(costume => costume.id === id)
   
-//   let response
-//   if (!troll) {
-//     let status = 404
-//     let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
-//     response = { errors: { status, message } }
-//   } else {
-//     const index = trolls.indexOf(troll)
-//     response = trolls.splice(index, 1)[0]
-//   }
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    response = { errors: { status, message } }
+  } else {
+    const index = costumes.indexOf(costume)
+    response = costumes.splice(index, 1)[0]
+    fs.writeFileSync(costumesDb, JSON.stringify(costumes))
+  }
 
-//   return response
-// }
+  return response
+}
 
 // FUNCTIONS FOR TAGS
 function getAllTags() {
