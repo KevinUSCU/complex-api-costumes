@@ -238,7 +238,60 @@ function getCostumeTag(costumeId, tagId) {
 }
 
 function createCostumeTag(costumeId, body) {
+  // Find costume
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  let costume = costumes.find(element => element.id === costumeId)
 
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
+    response = { errors: { status, message } }
+  } else {
+    // Get tag info from body
+    const { id, name, color } = body
+  
+    let response
+    // Load tag database
+    const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+    // If id is provided, we'll add a tag with the existing id
+    if (id) {
+      existingId = allTags.find(element => element.id === id)
+      if (existingId) { 
+        // id is a valid id in the database 
+        if (!costume.tags.find(element => element === id)) {
+          //only push tag if costume doesn't have the tag already
+          costume.tags.push(id)
+        }
+        response = existingId
+      } else {
+        // id is not valid
+        let status = 404
+        let message = `This is not an existing tag ID.`
+        response = { error: { status, message } }
+      }
+    // If no id is provided, then create a new tag. Name is required; color is optional
+    } else if (!name) {
+      let status = 400
+      let message = `You can't create a tag without a name.`
+      response = { errors: { status, message } }
+    } else {
+      // Create new tag
+      const tag = { id: uuid(), name, color }
+      // No guarantee there is an existing tag field; if not, intitialize it
+      if (!costume.tags) costume.tags = []
+      // Add our new tag to costume tags field
+      costume.tags.push(tag.id)
+      // Add our new tag to tags database
+      allTags.push(tag)
+      // Write databses to files
+      fs.writeFileSync(costumesDb, JSON.stringify(costumes))
+      fs.writeFileSync(tagsDb, JSON.stringify(allTags))
+
+      response = tag 
+    }
+    return response
+  }
 }
 
 function updateCostumeTag(costumeId, tagId, body) {
