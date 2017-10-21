@@ -138,7 +138,9 @@ function updateCostume(id, body) {
       if (price) costume.price = price
       if (description) costume.description = description
       if (tags) costume.tags = tags
+
       response = costume
+      fs.writeFileSync(costumesDb, JSON.stringify(costumes))
     }
   }
 
