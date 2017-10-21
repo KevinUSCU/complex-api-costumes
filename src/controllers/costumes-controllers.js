@@ -7,8 +7,8 @@ function getAllCostumes(req, res, next) {
 }
 
 function getCostume(req, res, next) {
-  const id = req.params.id
-  const result = model.getCostume(id)
+  const costumeId = req.params.costumeId
+  const result = model.getCostume(costumeId)
 
   if (result.errors) {
     return next(result.errors)
@@ -18,7 +18,8 @@ function getCostume(req, res, next) {
 }
 
 function createCostume(req, res, next) {
-  const result = model.createCostume(req.body)
+  const body = req.body
+  const result = model.createCostume(body)
 
   if (result.errors) {
     return next(result.errors)
@@ -28,9 +29,9 @@ function createCostume(req, res, next) {
 }
 
 function updateCostume(req, res, next) {
-  const id = req.params.id
+  const costumeId = req.params.costumeId
   const body = req.body
-  const result = model.updateCostume(id, body)
+  const result = model.updateCostume(costumeId, body)
 
   if (result.errors) {
     return next(result.errors)
@@ -40,8 +41,8 @@ function updateCostume(req, res, next) {
 }
 
 function deleteCostume(req, res, next) {
-  const id = req.params.id
-  const result = model.deleteCostume(id)
+  const costumeId = req.params.costumeId
+  const result = model.deleteCostume(costumeId)
   console.log(result)
   if (result.errors) {
     return next(result.errors)
@@ -63,13 +64,15 @@ function randomCostumes(req, res, next) {
 
 // TAG CONTROLLERS
 function getCostumeTags(req, res, next) {
-  const result = model.getCostumeTags()
+  const costumeId = req.params.costumeId
+  const result = model.getCostumeTags(costumeId)
   res.status(200).json({ data: result })
 }
 
 function getCostumeTag(req, res, next) {
-  const id = req.params.id
-  const result = model.getCostume(id)
+  const costumeId = req.params.costumeId
+  const tagId = req.params.tagId
+  const result = model.getCostumeTag(costumeId, tagId)
 
   if (result.errors) {
     return next(result.errors)
@@ -79,7 +82,9 @@ function getCostumeTag(req, res, next) {
 }
 
 function createCostumeTag(req, res, next) {
-  const result = model.createCostumeTag(req.body)
+  const costumeId = req.params.costumeId
+  const body = req.body
+  const result = model.createCostumeTag(costumeId, body)
 
   if (result.errors) {
     return next(result.errors)
@@ -89,9 +94,10 @@ function createCostumeTag(req, res, next) {
 }
 
 function updateCostumeTag(req, res, next) {
-  const id = req.params.id
+  const costumeId = req.params.costumeId
+  const tagId = req.params.tagId
   const body = req.body
-  const result = model.updateCostumeTag(id, body)
+  const result = model.updateCostumeTag(costumeId, tagId, body)
 
   if (result.errors) {
     return next(result.errors)
@@ -101,8 +107,9 @@ function updateCostumeTag(req, res, next) {
 }
 
 function deleteCostumeTag(req, res, next) {
-  const id = req.params.id
-  const result = model.deleteCostumeTag(id)
+  const costumeId = req.params.costumeId
+  const tagId = req.params.tagId
+  const result = model.deleteCostumeTag(costumeId, tagId)
   console.log(result)
   if (result.errors) {
     return next(result.errors)
