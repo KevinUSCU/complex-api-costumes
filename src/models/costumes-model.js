@@ -1,8 +1,8 @@
 const faker = require('faker')
 const uuid = require('uuid/v4')
 const fs = require('fs')
-const costumesDb = '../../db/costumes-database.json'
-const tagsDb = '../../db/tags-database.json'
+const costumesDb = 'db/costumes-database.json'
+const tagsDb = 'db/tags-database.json'
 
 // FUNCTIONS TO CREATE RANDOM DATA
 function _randomTags(num) {
@@ -66,7 +66,7 @@ function randomCostumes(num) {
       id: uuid(),
       name: faker.commerce.productName(),
       price: Number(faker.commerce.price()),
-      description: `${faker.commerce.productAdjective()} costume made of ${faker.commerce.productMaterial()}.`,
+      description: `${faker.commerce.productAdjective()} costume made of ${faker.commerce.productMaterial()} fabric.`,
       tags: costumeTags
     }
     costumes.push(costume)
@@ -80,6 +80,13 @@ function randomCostumes(num) {
 // FUNCTIONS FOR COSTUMES
 function getAllCostumes() {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+  // Replace tag ids with full tag info
+  costumes.forEach(costume => {
+    for (let i = 0; i < costume.tags.length; i++) {
+      costume.tags[i] = allTags.find(element => element.id === costume.tags[i])
+    }
+  })
   return costumes
 }
 
@@ -166,13 +173,27 @@ function deleteCostume(id) {
 }
 
 // FUNCTIONS FOR TAGS
-function getAllTags() {
+function getCostumeTags() {
   const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
   const tags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
-  return ???
+  return
 }
 
+function getCostumeTag() {
 
+}
+
+function createCostumeTag() {
+
+}
+
+function updateCostumeTag() {
+
+}
+
+function deleteCostumeTag() {
+
+}
 
 module.exports = {
   getAllCostumes,
