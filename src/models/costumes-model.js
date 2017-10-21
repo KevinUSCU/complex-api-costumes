@@ -210,7 +210,31 @@ function getCostumeTags(costumeId) {
 }
 
 function getCostumeTag(costumeId, tagId) {
+  // Find costume
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  let costume = costumes.find(element => element.id === costumeId)
 
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
+    response = { errors: { status, message } }
+  } else {
+    let tag
+    if (costume.tags) tag = costume.tags.find(element => element === tagId)
+    if (!tag) {
+      // Either there are no tags, or the particular tag does not exist
+      let status = 404
+      let message = `There is no such tag on this awesome costume!`
+      response = { errors: { status, message } }
+    } else {
+      // Fill in full tag info from tags database
+      const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+      tag = allTags.find(element => element.id === tag)
+      response = tag
+    }
+  }
+  return response
 }
 
 function createCostumeTag(costumeId, body) {
