@@ -4,6 +4,7 @@ const fs = require('fs')
 const costumesDb = '../../db/costumes-database.json'
 const tagsDb = '../../db/tags-database.json'
 
+// FUNCTIONS TO CREATE RANDOM DATA
 function _randomTags(num) {
   // Internal function to generate tags *only* if none exist
   // We'll generate a minumum of 3 tags
@@ -76,24 +77,27 @@ function randomCostumes(num) {
   return newCostumes
 }
 
-// function getAll() {
-//   return trolls
-// }
+// FUNCTIONS FOR COSTUMES
+function getAllCostumes() {
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  return costumes
+}
 
-// function getTroll(id) {
-//   const troll = trolls.find(troll => troll.id === id)
+function getCostume(id) {
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  let costume = costumes.find(costume => costume.id === id)
   
-//   let response
-//   if (!troll) {
-//     let status = 404
-//     let message = `Sneaky trolls... could not find a troll with id of ${id}.`
-//     response = { errors: { status, message } }
-//   } else {
-//     response = troll
-//   }
+  let response
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${id}.`
+    response = { errors: { status, message } }
+  } else {
+    response = costume
+  }
 
-//   return response
-// }
+  return response
+}
 
 // function create(body) {
 //   const { name, type, color, numBridges } = body
@@ -154,11 +158,25 @@ function randomCostumes(num) {
 //   return response
 // }
 
-// module.exports = {
-//   getAll,
-//   getTroll,
-//   create,
-//   update,
-//   del,
-//   randomTrolls
-// }
+// FUNCTIONS FOR TAGS
+function getAllTags() {
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  const tags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+  return ???
+}
+
+
+
+module.exports = {
+  getAllCostumes,
+  getCostume,
+  createCostume,
+  randomCostumes,
+  updateCostume,
+  deleteCostume,
+  getCostumeTags,
+  getCostumeTag,
+  createCostumeTag,
+  updateCostumeTag,
+  deleteCostumeTag
+}
