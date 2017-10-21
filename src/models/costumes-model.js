@@ -65,7 +65,7 @@ function randomCostumes(num) {
     let costume = {
       id: uuid(),
       name: faker.commerce.productName(),
-      price: Number(faker.commerce.price()),
+      price: Number(faker.commerce.price()) + .95,
       description: `${faker.commerce.productAdjective()} costume made of ${faker.commerce.productMaterial()} fabric.`,
       tags: costumeTags
     }
