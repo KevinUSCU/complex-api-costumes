@@ -295,7 +295,46 @@ function createCostumeTag(costumeId, body) {
 }
 
 function updateCostumeTag(costumeId, tagId, body) {
-
+  let response
+  // Find costume
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  const costume = costumes.find(element => element.id === costumeId)
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
+    response = { errors: { status, message } }
+  } else {
+    // Check that an updated value has been provided
+    const { name, color } = body
+    if (!name && !color) {
+      let status = 400
+      let message = `Some tag detail(s) to change must be provided - none were!`
+      response = { errors: { status, message } }
+    } else {
+      // Check if costume has this tag
+      if (!costume.tags) {
+        let status = 404
+        let message = `This costume does not have any tags.`
+        response = { errors: { status, message } }
+      } else {
+        if (!costume.tags.find(element => element === tagId)) {
+          let status = 404
+          let message = `This costume does not have this tag.`
+          response = { errors: { status, message } }
+        } else {
+          // If it does exist, we need to update the tag database
+          const allTags = JSON.parse(fs.readFileSync(tagsDb, 'utf-8'))
+          const tag = allTags.find(element => element.id === tagId)
+          if (name) tag.name = name
+          if (color) tag.color = color
+          // Write database file
+          fs.writeFileSync(tagsDb, JSON.stringify(allTags))
+          response = tag
+        }
+      }
+    }
+  }
+  return response
 }
 
 function deleteCostumeTag(costumeId, tagId) {
