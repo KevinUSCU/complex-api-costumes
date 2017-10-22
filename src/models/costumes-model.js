@@ -299,7 +299,36 @@ function updateCostumeTag(costumeId, tagId, body) {
 }
 
 function deleteCostumeTag(costumeId, tagId) {
+  let response
 
+  // Find costume
+  const costumes = JSON.parse(fs.readFileSync(costumesDb, 'utf-8'))
+  let costume = costumes.find(element => element.id === costumeId)
+  if (!costume) {
+    let status = 404
+    let message = `No threads here! Couldn't find a costume with an ID matching ${costumeId}.`
+    response = { errors: { status, message } }
+  } else {
+    // Find tag
+    if (!costume.tags) {
+      let status = 404
+      let message = `This costume does not have any tags.`
+      response = { errors: { status, message } }
+    } else {
+      const index = costume.tags.indexOf(tagId)
+      if (index === -1) {
+        let status = 404
+        let message = `This costume does not have this tag.`
+        response = { errors: { status, message } }
+      } else {
+        // Remove tag
+        response = costume.tags.splice(index, 1)[0]
+        // Write database file
+        fs.writeFileSync(costumesDb, JSON.stringify(costumes))
+      }
+    }
+  }
+  return response
 }
 
 module.exports = {
